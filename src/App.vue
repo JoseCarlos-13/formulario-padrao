@@ -14,7 +14,7 @@
 					<input type="number" v-model="usuario.idade">
 				</Rotulo>
 				<Rotulo nome="Mensagem">
-					<textarea name="" cols="30" rows="5" v-model="usuario.mensagem"></textarea>
+					<textarea name="" cols="30" rows="5" v-model="mensagem"></textarea>
 				</Rotulo>
 				<Rotulo nome="Características do Problema">
 					<span class="mr-4"><input type="checkbox" value="reproduzivel" v-model="opcao"> Reproduzível</span>
@@ -26,8 +26,12 @@
 					<span><input type="radio" value="Outro" v-model="produto"> Outro</span>
 				</Rotulo>
 				<Rotulo nome="Prioridade">
-					<select name="" id="">
-						<option></option>
+					<select v-model="p">
+						<option v-for="p in prioridades" 
+						:key="p.codigo" 
+						:value="p.codigo"
+						:selected="p.codigo === 2" 
+						:id="p.codigo">{{p.nome}}</option>
 					</select>
 				</Rotulo>
 				<Rotulo nome="Primeira Reclamação?">
@@ -48,7 +52,7 @@
 					<span>{{usuario.idade}}</span>
 				</Rotulo>
 				<Rotulo nome="Mensagem">
-					<span style="white-space: pre;">{{usuario.mensagem}}</span>
+					<span style="white-space: pre;">{{mensagem}}</span>
 				</Rotulo>
 				<Rotulo nome="Marque as Opções">
 					<span><ul>
@@ -61,7 +65,7 @@
 					<span>{{produto}}</span>
 				</Rotulo>
 				<Rotulo nome="Prioridade">
-					<span>???</span>
+					<span>{{p}}</span>
 				</Rotulo>
 				<Rotulo nome="Primeira Reclamação?">
 					<span>???</span>
@@ -83,13 +87,19 @@ export default {
 		return{
 			opcao: [],
 			produto: '',
+			mensagem: '',
+			p: 1,
+			prioridades: [
+				{codigo: 1, nome: 'Alta'},
+				{codigo: 2, nome: 'Baixa'}
+			],
+
+			reclamacao: '',
+
 			usuario: {
 				email: '',
 				senha: '',
 				idade: '',
-				mensagem: '',
-				prioridade: '',
-				reclamacao: ''
 			}
 		}
 	}
