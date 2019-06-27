@@ -2,7 +2,7 @@
 	<div id="app">
 		<h1>Registrar Reclamação</h1>
 		<div class="conteudo">
-			<form class="painel">
+			<form class="painel" v-if="!enviado">
 				<div class="cabecalho">Formulário</div>
 				<Rotulo nome="E-mail">
 					<input type="text" v-model="usuario.email">
@@ -35,12 +35,13 @@
 					</select>
 				</Rotulo>
 				<Rotulo nome="Primeira Reclamação?">
-					<Escolha />
+					<Escolha v-model="escolha" @input="$emit('input')" />
 				</Rotulo>
 				<hr>
-				<button>Enviar</button>
+				<button @click="enviar">Enviar</button>
 			</form>
-			<div class="painel">
+
+			<div class="painel" v-else>
 				<div class="cabecalho">Resultado</div>
 				<Rotulo nome="E-mail">
 					<span>{{usuario.email}}</span>
@@ -68,7 +69,7 @@
 					<span>{{p}}</span>
 				</Rotulo>
 				<Rotulo nome="Primeira Reclamação?">
-					<span>???</span>
+					<span>{{escolha}}</span>
 				</Rotulo>
 			</div>
 		</div>
@@ -83,6 +84,12 @@ export default {
 	name: 'app',
 	components: { Rotulo, Escolha },
 
+	methods:{
+		enviar(){
+			this.enviado = !this.enviado
+		}
+	},
+
 	data(){
 		return{
 			opcao: [],
@@ -94,13 +101,15 @@ export default {
 				{codigo: 2, nome: 'Baixa'}
 			],
 
-			reclamacao: '',
+			escolha: true,
 
 			usuario: {
 				email: '',
 				senha: '',
 				idade: '',
-			}
+			},
+
+			enviado: false
 		}
 	}
 }
